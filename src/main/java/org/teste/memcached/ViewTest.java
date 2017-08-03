@@ -75,9 +75,8 @@ public class ViewTest extends JFrame{
 		jpTestsOperations.setLayout(new MigLayout(new LC().insetsAll("0").hideMode(2)));
 		jpTestsOperations.add(jcbOption, new CC());
 		jpTestsOperations.add(new JLabel("KEY"));
-		jpTestsOperations.add(jtfKey, new CC().width("100::"));
-		jpTestsOperations.add(jbTestGetSet, new CC());
-		jpTestsOperations.add(new JLabel(""), new CC().width("0:100%:"));
+		jpTestsOperations.add(jtfKey, new CC().width("100:100%:"));
+		jpTestsOperations.add(jbTestGetSet, new CC().gapRight("20"));
 		jpTestsOperations.add(jbFlushAll, new CC());
 		jpTestsOperations.add(jbStats, new CC().wrap());
 		jpTestsOperations.add(scrollValue, new CC().spanX().width("0:100%:").height("80:100%:"));
