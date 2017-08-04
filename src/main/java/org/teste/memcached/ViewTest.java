@@ -23,6 +23,8 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import org.teste.memcached.utils.MemcachedPoolUtils;
+import org.teste.memcached.utils.PropertiesUtils;
+import org.teste.memcached.utils.PropertiesUtils.Prop;
 
 import com.whalin.MemCached.MemCachedClient;
 
@@ -36,7 +38,7 @@ public class ViewTest extends JFrame{
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	private JPanel jpTestsOperations = new JPanel();
-	private JTextField jtfIpServer = new JTextField("192.168.1.186");
+	private JTextField jtfIpServer = new JTextField("localhost");
 	private JSpinner jsPort = new JSpinner(new SpinnerNumberModel(11211, 0, 999999, 1));
 	private JButton jbTestConnection = new JButton("Test connection");
 	private JButton jbStats = new JButton("Stats");
@@ -118,6 +120,35 @@ public class ViewTest extends JFrame{
 				MemcachedPoolUtils.shutDownPool();
 			}
 		});
+		
+		loadProperties();
+	}
+
+	private void loadProperties() {
+		try {
+			PropertiesUtils.loadProperties();
+			String host = PropertiesUtils.getProp(Prop.HOST);
+			String port = PropertiesUtils.getProp(Prop.PORT);
+			
+			if(host!=null && !host.trim().isEmpty()){
+				jtfIpServer.setText(host.trim());
+			}
+			if(port!=null && !port.trim().isEmpty()){
+				jsPort.setValue(Integer.parseInt(port));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void saveProperties(String host, Integer port) {
+		try {
+			PropertiesUtils.setProp(Prop.HOST, host);
+			PropertiesUtils.setProp(Prop.PORT, String.valueOf(port));
+			PropertiesUtils.saveProperties();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void flushAll() {
@@ -219,6 +250,7 @@ public class ViewTest extends JFrame{
 					if(get()){
 						jtaConsole.replaceRange("Connection SUCCESS!!",0, jtaConsole.getText().indexOf("\n"));
 						jpTestsOperations.setVisible(true);
+						saveProperties(address, port);
 					}else{
 						jtaConsole.replaceRange("Connection FAILURE!!",0, jtaConsole.getText().indexOf("\n"));
 					}

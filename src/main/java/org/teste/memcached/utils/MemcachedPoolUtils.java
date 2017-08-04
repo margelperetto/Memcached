@@ -9,10 +9,6 @@ public class MemcachedPoolUtils {
 
 	private static SockIOPool pool;
 	
-	public static MemCachedClient initializePool(boolean startClient){
-		return initializePool(startClient, "192.168.1.186", 11211);
-	}
-
 	public static MemCachedClient newClientFromPool() {
 		return new MemCachedClient(MemcachedPoolUtils.POOL_ID);
 	}
