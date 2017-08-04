@@ -40,7 +40,8 @@ public class ViewTest extends JFrame{
 	private JPanel jpTestsOperations = new JPanel();
 	private JTextField jtfIpServer = new JTextField("localhost");
 	private JSpinner jsPort = new JSpinner(new SpinnerNumberModel(11211, 0, 999999, 1));
-	private JButton jbTestConnection = new JButton("Test connection");
+	private JButton jbConnect = new JButton("Connect");
+	private JButton jbDefault = new JButton("Default");
 	private JButton jbStats = new JButton("Stats");
 	private JButton jbFlushAll = new JButton("FlushAll");
 	private JTextArea jtaConsole = new JTextArea();
@@ -63,7 +64,8 @@ public class ViewTest extends JFrame{
 		jpConnection.add(new JLabel("Connection port"), new CC().wrap());
 		jpConnection.add(jtfIpServer, new CC().width("200::"));
 		jpConnection.add(jsPort, new CC().growX());
-		jpConnection.add(jbTestConnection, new CC());
+		jpConnection.add(jbConnect, new CC());
+		jpConnection.add(jbDefault, new CC());
 		
 		JScrollPane scrollValue = new JScrollPane(jtaValue);
 		scrollValue.setBorder(new TitledBorder("Value"));
@@ -83,8 +85,12 @@ public class ViewTest extends JFrame{
 		jpTestsOperations.add(jbStats, new CC().wrap());
 		jpTestsOperations.add(scrollValue, new CC().spanX().width("0:100%:").height("80:100%:"));
 		
-		jbTestConnection.addActionListener((evt)->{
-			testConnection();
+		jbConnect.addActionListener((evt)->{
+			connect();
+		});
+		jbDefault.addActionListener((evt)->{
+			jtfIpServer.setText("localhost");
+			jsPort.setValue(11211);
 		});
 		jbTestGetSet.addActionListener((evt)->{
 			testGetSet();
@@ -228,8 +234,9 @@ public class ViewTest extends JFrame{
 		}
 	}
 
-	private void testConnection() {
-		jbTestConnection.setEnabled(false);
+	private void connect() {
+		jbConnect.setEnabled(false);
+		jbDefault.setEnabled(false);
 		jpTestsOperations.setVisible(false);
 		jtaConsole.setText("Testing connection...\n\n");
 		address = jtfIpServer.getText();
@@ -259,7 +266,8 @@ public class ViewTest extends JFrame{
 					e.printStackTrace();
 					jtaConsole.replaceRange("CONNECTION ERROR! \n"+e.getMessage(),0, jtaConsole.getText().indexOf("\n"));
 				} finally{
-					jbTestConnection.setEnabled(true);
+					jbConnect.setEnabled(true);
+					jbDefault.setEnabled(true);
 					finishTest();
 				}
 			}
