@@ -19,7 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import org.teste.memcached.utils.MemcachedPoolUtils;
@@ -283,8 +282,4 @@ public class ViewTest extends JFrame{
 		((JPanel)getContentPane()).updateUI();
 	}
 
-	public static void main(String[] args) throws Exception{
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		new ViewTest().setVisible(true);
-	}
 }
